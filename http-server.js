@@ -8,16 +8,23 @@ let server = http.createServer((req, res) => {
     
     console.log(req.method);
     console.log(req.url);
-    if (req.url === '/' && req.method === 'GET') {
-        fs.readFile(__dirname + '/textarea.html', (err, data) => {
-            if (err) {
-                res.writeHead(404);
-                res.end(JSON.stringify(err));
-                return;
-            }
-            res.writeHead(200);
-            res.end(data);
-        })
+    if (req.method === 'GET') {
+        if (req.url === '/ugh-decode') {
+            fs.readFile(__dirname + '/textarea.html', (err, data) => {
+                if (err) {
+                    res.writeHead(404);
+                    res.end(JSON.stringify(err));
+                    return;
+                }
+                res.writeHead(200);
+                res.end(data);
+            })
+        }
+        else {
+            res.writeHead(404);
+            res.end('not found');
+            return;
+        }
     }
     else if (req.method === 'POST') {
         var postString = '';
