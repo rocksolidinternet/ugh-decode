@@ -39,15 +39,29 @@ let server = http.createServer((req, res) => {
                 
                 let base64Buffer = new Buffer(jsonRequest.text, 'base64')
                 let serialized = base64Buffer.toString()
-                
+
                 if (!(/^i|d|s|b|n|c|a|o|r/).test(serialized)) {
                     throw Error(serialized + ' does not look like serialized php');
                 }
 
                 let unserialized = phpUnserialize(serialized)
+                
+                var cache = [];
+                let stringifiedJson = JSON.stringify({decoded: unserialized}, (key, value) => {
+                    if (typeof value === 'object' && value !== null) {
+                        if (cache.indexOf(value) !== -1) {
+                            // Circular reference found, discard key
+                            return;
+                        }
+                        // Store value in our collection
+                        cache.push(value);
+                    }
+                    return value;
+                });
+                cache = null; // Enable garbage collection
 
                 res.writeHead(200)
-                res.end(JSON.stringify({decoded: unserialized}))
+                res.end(stringifiedJson)
                 
                 return
             }
@@ -61,4 +75,4 @@ let server = http.createServer((req, res) => {
 
 server.listen(3006, () => {
     console.log("Server listening on: http://localhost:%s", 3006);
-});
+})
