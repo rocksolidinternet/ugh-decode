@@ -41,7 +41,7 @@
                 $('#decode-reponse').hide();
                 $('#decode-error').hide();
                 
-                $.post('/', JSON.stringify({text: $('#decode-text').val()}), function(response) {
+                $.post('/ugh-decode/', JSON.stringify({text: $('#decode-text').val()}), function(response) {
                     $('#decode-reponse').show().find('textarea').val(JSON.stringify(response.decoded, null, 4))
                     
                 }, 'json').fail(function(err) {
