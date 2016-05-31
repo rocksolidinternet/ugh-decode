@@ -52,6 +52,6 @@ let server = http.createServer((req, res) => {
     }
 })
 
-server.listen(3012, () => {
-    console.log("Server listening on: http://localhost:%s", 3012);
+server.listen(3006, () => {
+    console.log("Server listening on: http://localhost:%s", 3006);
 });
