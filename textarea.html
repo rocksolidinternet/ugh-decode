@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="unserialize(base64_decode($ugh));">
+    <meta name="author" content="Alex Baron">
+
+    <title>ugh-decode</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>ugh-decode</h1>
+        </div>
+        <p class="lead">unserialize(base64_decode($ugh));</p>
+        <div style="clear:both;">
+            <textarea class="form-control" rows="7" id="decode-text" placeholder="$ugh"></textarea>
+            <br />
+            <button type="button" class="btn btn-primary pull-right" id="decode-btn">ugh, decode it</button>
+        </div>
+        
+        <br /><br /><br />
+        
+        <p style="display:none;" id="decode-reponse"><textarea class="form-control" rows="40"></textarea></p>
+        <div class="alert alert-danger" style="display:none; clear:both;" id="decode-error"></div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
+    <script>
+        $(function() {
+            $('#decode-btn').on('click', function(e) {
+                e.preventDefault();
+                
+                $('#decode-reponse').hide();
+                $('#decode-error').hide();
+                
+                $.post('/', JSON.stringify({text: $('#decode-text').val()}), function(response) {
+                    $('#decode-reponse').show().find('textarea').val(JSON.stringify(response.decoded, null, 4))
+                    
+                }, 'json').fail(function(err) {
+                    $('#decode-error').html(err.responseJSON.error).show()
+                })
+            })
+        });
+    </script>
+
+</body>
+
+</html>

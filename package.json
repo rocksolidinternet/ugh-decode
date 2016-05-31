@@ -1,0 +1,8 @@
+{
+  "name": "ugh-decode",
+  "description": "unserialize(base64_decode($ugh));",
+  "private": true,
+  "dependencies": {
+    "php-serialization": "0.0.4"
+  }
+}
